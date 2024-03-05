@@ -1,0 +1,18 @@
+.container{
+    width: 100%;
+    min-height: 100dvh;
+    background-attachment: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    /* background: linear-gradient(90deg,#A659FE 0%,#6F53FD); */
+    background: radial-gradient(#A659FE,#6F53FD);
+  }
+  
+  .sub_container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }

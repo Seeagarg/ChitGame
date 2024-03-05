@@ -1,0 +1,22 @@
+.navbar{
+    width: 100%;
+    position: fixed;
+    bottom: 0;left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.navbar_items{
+    width: 60rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    padding: 1rem;
+    gap: 3rem;
+    background: #FFFEFF;
+    border-radius: 1rem;
+}
+
+.icon{
+    font-size: 2rem !important;
+}

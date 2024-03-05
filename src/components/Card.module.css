@@ -1,0 +1,22 @@
+.card{
+    margin-top: 8rem;
+    width: 35rem;
+    background-color: #FFFEFF;
+    min-height: 30rem;
+    border-radius: 1rem;
+    box-shadow: 0 1rem 2rem rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 2rem 3rem 2rem 3rem;
+  }
+  
+  .card_content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+  }
+  

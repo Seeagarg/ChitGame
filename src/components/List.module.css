@@ -1,0 +1,14 @@
+.list_container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 2rem;
+    list-style-type:square;
+}
+.list{
+    font-size: 1.5rem;
+    font-family: 'Poppins',sans-serif;
+}

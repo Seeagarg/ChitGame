@@ -1,0 +1,34 @@
+*,*::before,*::after{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+}
+
+html{
+  font-size: 62.5%;
+}
+
+body {
+  height: 100vh;
+  width: 100%;
+  font-family: sans-serif;
+  /* background: linear-gradient(90deg,rgb(255, 255, 255) 0%,rgb(220, 220, 220)); */
+  background: #fafafa;
+}
+
+.privacy-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* background-color:#9900ff; */
+  /* background-color:#3760C9; */
+  background: radial-gradient(#A659FE,#6F53FD);
+  z-index: 2;
+}
+
+button{
+  cursor: pointer;
+}
