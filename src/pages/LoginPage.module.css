@@ -1,0 +1,28 @@
+
+.form{
+    width: 100%;
+    padding: 2rem;
+}
+
+
+
+.input{
+    font-size: 1.5rem;
+    width: 100%;
+    height: 4rem;
+    margin: 10px 0px;
+    /* border: none; */
+    border: 1px solid grey;
+    border-radius: 20px;
+    padding: 10px;
+}
+
+.input:focus{
+    /* border: 1px solid grey; */
+    outline: none;
+    box-shadow: rgba(25, 25, 45, 0.12) 0px 15px 30px -6px inset, rgba(0, 0, 0, 0.3) 0px 9px 18px -9px inset;
+}
+
+.label{
+    font-size: 1.5rem;
+}

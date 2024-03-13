@@ -8,11 +8,19 @@ import Button from "../components/Button";
 import Layout from "../components/Layout";
 import Card from "../components/Card";
 import PrimaryTitle from "../components/PrimaryTitle";
+import { getCookie } from "../Cookie";
 
 const HomePage = () => {
+  const token = getCookie()?JSON.parse(getCookie()).token:"";
   const navigate = useNavigate();
-  const navigateHandler = (path) => {
-    navigate(path);
+  const navigateHandler = () => {
+    if(token){
+      navigate('/game')
+    }
+    else{
+      navigate("/login");
+    }
+    
   };
 
   return (
@@ -29,10 +37,9 @@ const HomePage = () => {
           <Button
             text="Play"
             buttonStyle={5}
-            onPress={() => navigateHandler("/game")}
+            onPress={navigateHandler}
           />
         </Card>
-
         <BottomNavbar />
       </Layout>
     </>

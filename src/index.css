@@ -32,3 +32,15 @@ body {
 button{
   cursor: pointer;
 }
+
+
+.MuiBox-root{
+  border-radius: 20px;
+}
+
+
+.css-1rh9m9w{
+  /* background: radial-gradient(#A659FE, #6F53FD); */
+  background: radial-gradient(#a659fe38, #6f53fd5e);
+  border-radius: 20px;
+}

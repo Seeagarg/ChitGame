@@ -7,12 +7,14 @@ import InstructionsPage from "../pages/InstructionsPage";
 import TermsPage from "../pages/TermsPage";
 import AccountPage from "../pages/AccountPage";
 import GamePage from "../pages/GamePage";
+import LoginPage from "../pages/LoginPage";
+import GameOver from "../pages/GameOver";
 
 const Routing = () => {
   const routes = [
     {
       path: "/home",
-      element: <HomePage />,
+      element: <HomePage/>,
     },
     {
       path: "/",
@@ -20,7 +22,7 @@ const Routing = () => {
     },
     {
       path: "/instructions",
-      element: <InstructionsPage />,
+      element: <InstructionsPage/>,
     },
     {
       path: "/terms",
@@ -34,9 +36,19 @@ const Routing = () => {
       path: "/game",
       element: <GamePage />,
     },
+    {
+      path: "/login",
+      element: <LoginPage/>,
+    },
+    {
+      path: "/gameOver",
+      element: <GameOver/>,
+    },
   ];
 
   const element = useRoutes(routes);
+
+  // console.log(element,'element');
 
   const location = useLocation();
 

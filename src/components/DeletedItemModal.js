@@ -18,7 +18,7 @@ const style = {
     alignContent:"center"
   };
 
-const DeletedItemModal = ({open,items,close}) => {
+const DeletedItemModal = ({open,items,close})=>{
 
   return (
     <div>

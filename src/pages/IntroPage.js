@@ -13,9 +13,11 @@ const IntroPage = () => {
     return () => clearTimeout(timeout);
   }, []);
   return (
+  
     <div className={classes.container}>
       <div className={classes.sub_container}>
         {/* <img src="/assets/images/text.gif" alt="" className={classes.gif} /> */}
+       
         <h3 className={classes.title}>Welcome to Chit Game</h3>
         <Lottie
           animationData={animationData}

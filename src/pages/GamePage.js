@@ -10,11 +10,72 @@ import DeletedItemModal from "../components/DeletedItemModal";
 import InfoIcon from '@mui/icons-material/Info';
 import DraftsIcon from '@mui/icons-material/Drafts';
 import MarkAsUnreadIcon from '@mui/icons-material/MarkAsUnread';
+import { useDispatch, useSelector } from "react-redux";
+import userSlice from "../Slices/userSlice";
+import cardSlice, { addCard, removeCard } from "../Slices/cardSlice";
+import { accountApi, chitApi, decreaseTries, questionApi } from "../api/Http";
+import QuestionModal from "../components/QuestionModal";
+import { getCookie } from "../Cookie";
+import { addAccount, addTries, addprice } from "../Slices/accountSlice";
+import { useNavigate } from "react-router-dom";
+import { addChit, allItems, removeChit, shuffleChits } from "../Slices/allChitSlice";
 
 const GamePage = () => {
 
+  const navigate = useNavigate();
+
   const [count,setCount] = useState(0);
   const [showModal,setShowModal] = useState(false);
+
+  const status = useSelector((state)=>state.userSlice)
+
+  const msisdn = getCookie()?JSON.parse(getCookie()).msisdn:"";
+
+  const [showItem, setShowItem] = useState([]);
+  const [moveItem,setMoveItem]=useState("");
+  const [deletedItems,setDeletedItems] = useState([]);
+  const [showQuestion,setShowQuestion] = useState(false);
+  const [currentItem,setCurrentItem] = useState();
+  const [question,setQuestion] = useState("");
+  const [getBack,setGetBack] = useState(false);
+  const [price,setPrice] = useState(0)
+  // const [tries,setTries] = useState(10)
+  const dispatch = useDispatch();
+  const item = useSelector((state)=>state.cardSlice);
+  const chitdata = useSelector((state)=>state.allChitSlice);
+  const accountData = useSelector((state)=>state.accountSlice)
+
+
+  const fetchAccountData=async()=>{
+    const response = await accountApi(msisdn);
+    dispatch(addAccount(response))
+  }
+
+  useEffect(()=>{
+    fetchAccountData();
+  },[])
+
+  const fetchChitData=async()=>{
+    const response = await chitApi();
+    dispatch(allItems(response?.result))
+}
+
+useEffect(()=>{
+  console.log(accountData?.tries)
+  if(accountData?.tries == 10){
+    fetchChitData();
+    }
+},[accountData])
+
+
+  useEffect(()=>{
+    if(accountData.tries == 0 && !question){
+      setTimeout(()=>{
+        navigate('/gameOver')
+      },5000)
+     
+    }
+  },[accountData])
 
 function notificationsLabel(num) {
   if (num == 0) {
@@ -23,102 +84,127 @@ function notificationsLabel(num) {
   if (num > 99) {
     return 'more than 99 notifications';
   }
-  // console.log(num,"??")
   return `${num} notifications`;
 }
 
-  const animationControls = useAnimation();
-  
-  const [data, setData] = useState([
-    {
-      id: "1",
-      value: "Rs.10",
-    },
-    {
-      id: "2",
-      value: "Empty!",
-    },
-    {
-      id: "3",
-      value: "Empty!",
-    },
-    {
-      id: "4",
-      value: "Rs.10",
-    },
-    {
-      id: "5",
-      value: "Empty!",
-    },
-    {
-      id: "6",
-      value: "Empty!",
-    },
-    {
-      id: "7",
-      value: "Empty!",
-    },
-  ]);
-
-  const [filteredData, setFilteredData] = useState(data);
-
   useEffect(() => {
-    const shuffleArray = (array) => {
-      for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-      }
-      return array;
-    };
 
-    const shuffledData = shuffleArray([...data]);
-
-    setData(shuffledData);
+    dispatch(shuffleChits(chitdata))
   }, []);
 
-  const [showItem, setShowItem] = useState([]);
-  const [moveItem,setMoveItem]=useState("");
-  const [deletedItems,setDeletedItems] = useState([]);
 
-  const handleClick = (id,value) => {
+  const fetchQuestion =async()=>{
+    const question = await questionApi();
+    setQuestion(question.result)
+  }
+
+  useEffect(()=>{
+      if(!showItem.includes(currentItem?.id)){
+        setCount(count+1);
+        dispatch(removeChit(currentItem?.id));
+        fetchAccountData();
+      }
+    
+  },[showItem])
+  
+
+  const handleClick = async (id,value) => {
+  console.log(value,'value')
+    const response = await decreaseTries();
+    setCurrentItem({id:id,price:value,currency:'$'})
     setTimeout(()=>{
       if(!showItem.includes(id)){
         setCount(count+1);
+        dispatch(removeChit(id));
+        fetchAccountData();
       }
-    },1000)
-   
-    setShowItem(id);
-    // const obj = data.filter((item)=>item.id == id)
-    setDeletedItems([...deletedItems,{id:id,value:value}])
+    },3000)
+    setShowItem([...showItem,id])
+
+    dispatch(addCard({id:id,value:value}))
+    fetchAccountData();
+    if(value == "EMPTY"){
+      return;
+    }
+
+   fetchQuestion()
+    setTimeout(()=>{
+      setShowQuestion(true)
+    },2000)
   };
 
-  console.log(showItem, "showItem");
+
+  const AddScore=()=>{
+    console.log('accountData fetching')
+    fetchAccountData();
+    console.log('accountData fetched')
+  }
+
+  
+  const removeItem=()=>{
+    console.log("removeItem invoked")
+    dispatch(removeCard());
+    showItem.pop();
+    fetchAccountData();
+    dispatch(addChit(currentItem)) ;
+    dispatch(shuffleChits(chitdata))
+  }
+
+
 
   return (
     <Layout>
-    
+
+    <div className={classes.top}>
+    <div className={classes.top1}>
+    <p><strong>Tries:</strong>{accountData?.tries}</p>
+    <p> <strong>Price:</strong>${accountData?.price}</p>
+    </div>
+    <div className={classes.top2}>
+    {/* <div className={classes.delete_icon}> */}
+      <IconButton aria-label={notificationsLabel(item?.length)} style={{float:"inline-end"}}>
+  <Badge badgeContent={item?.length} color="secondary">
+    <MarkAsUnreadIcon  style={{fontSize:"5rem",cursor:"pointer",color:"white"}} onClick={()=>{setShowModal(true)}}
+    />
+  </Badge>
+</IconButton>
+      {/* </div> */}
+    </div>
+    </div>
       <div className={classes.grid}>
-     
-        {filteredData?.map((dataItem, i) => {
+        {
+          
+          (
+           chitdata?.length>0 ?
+
+          chitdata?.map((dataItem, i) => {
+            {/* console.log(showItem.includes(dataItem?.id),"showitem"); */}
           return (
+            <>
+            
             <motion.div
             animate={
+              // !getBack ? (
               showItem.includes(dataItem?.id)
                &&
-              {rotate: 360 ,x:360,transitionDelay:"3s",transitionDuration:"3s",transition:{ease:"easeInOut"}}
-            }
+              {rotate: 360 ,x:360,transitionDelay:"2s",transitionDuration:"3s",transition:{ease:"easeInOut"}}
+              // ):{rotate: -360 ,x:0,transitionDelay:"2s",transitionDuration:"3s",transition:{ease:"easeInOut"}}
+
+              
+            } 
+            
               className={classes.wrapper}
-              onClick={() => handleClick(dataItem?.id,dataItem.value)}
+              onClick={() => handleClick(dataItem?.id,dataItem.price)}
               key={dataItem?.id}
             >
               <div
                 className={`${classes.lid} ${classes.one} ${
-                  showItem.includes(dataItem?.id) && classes.open_lid_one
+                 showItem.includes(dataItem?.id) && classes.open_lid_one
                 }`}
               ></div>
               <div
                 className={`${classes.lid} ${classes.two} ${
-                  showItem.includes(dataItem?.id) && classes.open_lid_two
+                   showItem.includes(dataItem?.id) && classes.open_lid_two
                 }`}
               ></div>
               <div className={classes.envelope}></div>
@@ -126,23 +212,25 @@ function notificationsLabel(num) {
                 className={`${classes.letter} ${
                   showItem.includes(dataItem?.id) && classes.open_letter
                 }`}
+               
               >
-                <p>{dataItem?.value}</p>
+              
+                <p>{dataItem?.currency}{dataItem?.price}</p>
               </div>
             </motion.div>
+            
+            </>
           );
-        })}
+        }):"Loading..."
+        )
+   
+        }
       </div>
-      <div className={classes.delete_icon}>
-      <IconButton aria-label={notificationsLabel(count)} style={{marginTop:"2rem"}}>
-  <Badge badgeContent={count} color="secondary">
-    <MarkAsUnreadIcon  style={{fontSize:"5rem",cursor:"pointer",color:"white"}} onClick={()=>{setShowModal(true)}}
-    />
-  </Badge>
-</IconButton>
-      </div>
+      
       <BottomNavbar />
-      <DeletedItemModal open={showModal} items = {deletedItems} close ={()=>{setShowModal(false)}} />
+      <DeletedItemModal open={showModal} items = {item} close ={()=>{setShowModal(false)}} />
+      <QuestionModal open ={showQuestion} close={()=>{setShowQuestion(false)}} question={question} price={currentItem?.price} remove={removeItem} AddScore={AddScore}/>
+
     </Layout>
   );
 };

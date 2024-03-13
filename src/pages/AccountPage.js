@@ -1,15 +1,44 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import BottomNavbar from "../components/BottomNavbar";
 import Card from "../components/Card";
 import PrimaryTitle from "../components/PrimaryTitle";
 import classes from "./AccountPage.module.css";
 import Button from "../components/Button";
+import { getCookie, removeCookie } from "../Cookie";
+import { accountApi } from "../api/Http";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { addAccount } from "../Slices/accountSlice";
 
 const AccountPage = () => {
+
+  // const [data,setData] = useState([]);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const data = useSelector((state)=>state.accountSlice)
+
+  const msisdn = getCookie()?JSON.parse(getCookie()).msisdn:"";
+
+  useEffect(()=>{
+    const fetchAccountData=async()=>{
+      const response = await accountApi(msisdn);
+      console.log(response);
+      dispatch(addAccount(response));
+      // setData(response);
+    }
+
+    fetchAccountData();
+  },[])
+
   const logoutHandler = () => {
+    removeCookie();
+    navigate('/login')
     console.log("logout");
   };
+
+
   return (
     <Layout>
       <Card>
@@ -21,7 +50,7 @@ const AccountPage = () => {
             className={classes.avatar}
           />
 
-          <h3 className={classes.number}>09829732..</h3>
+          <h3 className={classes.number}>{data?.msisdn}</h3>
 
           <div className={classes.prizes_container}>
             {/* SHOW BUTTON THAT SAYS PRIZES WON AND TRIES LEFT , BUY TRIES */}
@@ -35,7 +64,7 @@ const AccountPage = () => {
                   alt="prize"
                   className={classes.svg}
                 />
-                <p className={classes.p}>$88.88</p>
+                <p className={classes.p}>${data?.price}</p>
               </div>
             </div>
 
@@ -49,7 +78,7 @@ const AccountPage = () => {
                   alt="tries"
                   className={classes.svg}
                 />
-                <p className={classes.p}>0</p>
+                <p className={classes.p}>{data?.tries}</p>
               </div>
             </div>
 

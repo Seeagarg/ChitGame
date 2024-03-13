@@ -1,0 +1,83 @@
+.modal{
+    border-radius: 20px;
+    background: radial-gradient(#A659FE, #6F53FD);
+}
+
+.btn_option{
+    height: 4rem;
+    width: 100%;
+    /* border: 1px solid black; */
+    margin: 2px 0px 2px 0px;
+    background: radial-gradient(#A659FE, #6F53FD);
+    color: white;
+    font-size: 1.5rem;
+    border-radius: 10px;
+    padding: 10px;
+    cursor:pointer
+}
+
+.btn_option:hover{
+    background: radial-gradient(#9846f7, #5a3cf1);
+}
+
+.active{
+    color: grey;
+}
+
+.animation{
+    height: 50%;
+    width: 50%;
+    
+}
+
+/* .submit_btn{
+    background: rgb(1, 144, 1);
+    width: 100%;
+    border: none;
+    cursor:pointer;
+    height: 4rem;
+    font-size: 1.5rem;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 2px 0px 2px 0px;
+} */
+
+.question_wrapper{
+    margin-top: 2rem;
+}
+
+.question p{
+    font-size: 1.5rem;
+    margin: 2px 0px 2px 0px;
+}
+
+.question button{
+    width: 100%;
+    margin: 2px 0px 2px 0px;
+    background-color: #6a5489e3;
+    color: white;
+    font-size: 1.5rem;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.close_btn{
+    position: absolute;
+    top: 0%;
+    float:right;
+    background:red;
+  }
+
+  .win{
+    align-items: center;
+    text-align: center;
+    font-size: 3rem;
+    font-weight: 900;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .disabled{
+    background: rgba(128, 128, 128, 0.58);
+  }

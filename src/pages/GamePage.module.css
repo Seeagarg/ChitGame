@@ -8,17 +8,43 @@
     width: 40rem;
     gap: 1rem;
     height: fit-content;
-    margin: 5rem 0 2rem 0;
+    /* margin: 5rem 0 2rem 0; */
     background-color: #FFFEFF;
     border-radius: 1rem;
     box-shadow: 0 1rem 2rem rgba(0,0,0,0.5);
     overflow: hidden;
+    margin-bottom: 10rem;
+    
   }
 
-  .delete_icon{
-    align-self: baseline;
-    margin: 2rem;
+
+  .top{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 40rem;
+    align-items: center;
   }
+
+  .top1{
+width: 50%;
+padding: 2rem;
+color: white;
+
+  }
+
+  .top1 p{
+    font-size: 2rem;
+  }
+
+
+  .top2{
+    width: 50%;
+    /* align-self: right; */
+    padding: 2rem;
+  }
+
+  
   
   .wrapper {
   height: 80px;
