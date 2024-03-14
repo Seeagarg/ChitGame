@@ -18,21 +18,34 @@ const allChitSlice = createSlice({
         },
         removeChit:(state,action)=>{
             // state.remove(action.payload);
+            console.log(action.payload)
             state = state.filter((item)=>item.id !== action.payload) 
+            state.push({});
             return state;
         },
 
         shuffleChits:(state,action)=>{
-            
-            const shuffleArray = () => {
-                const array = action.payload;
-                for (let i = array.length - 1; i > 0; i--) {
-                  const j = Math.floor(Math.random() * (i + 1));
-                  [array[i], array[j]] = [array[j], array[i]];
-                }
-                return array;
-              };
 
+
+            const array = [...action.payload]; // Create a copy of the array
+            for (let i = array.length - 1; i > 0; i--) {
+              const j = Math.floor(Math.random() * (i + 1));
+              [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+
+
+
+            // const array = action.payload;
+            // // const shuffleArray = () => {
+            //     for (let i = array.length - 1; i > 0; i--) {
+            //       const j = Math.floor(Math.random() * (i + 1));
+            //       [array[i], array[j]] = [array[j], array[i]];
+            //     }
+            //     return array;
+            //   };
+            //   state = shuffleArray(action.payload);
+            //   return state;
 
         }
 

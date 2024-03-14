@@ -15,16 +15,19 @@ import DeletedItemModal from '../components/DeletedItemModal';
 import { useDispatch, useSelector } from 'react-redux';
 import cardSlice from '../Slices/cardSlice';
 import { addAccount } from '../Slices/accountSlice';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 // import Lottie from 'lottie-react';
 
 const GameOver = () => {
 
     // const [data,setData] = useState([]);
     const [open,setOpen] = useState(false);
+    const [data,setData] = useState("");
     const dispatch = useDispatch();
 
     const items = useSelector((state)=>state.cardSlice)
-    const data = useSelector((state)=>state.accountSlice);
+    // const data = useSelector((state)=>state.accountSlice);
    
   const navigate = useNavigate();
 
@@ -34,20 +37,15 @@ const GameOver = () => {
     const fetchAccountData=async()=>{
       const response = await accountApi(msisdn);
       console.log(response);
-      dispatch(addAccount(response));
-      // setData(response);
+      setData(response);
+      if(response.tries > 0){
+        navigate('/')
+      }
     }
 
     fetchAccountData();
     
     
-  },[])
-
-
-  useEffect(()=>{
-    if(data.tries !== 0){
-      navigate('/')
-    }
   },[])
 
   return (
@@ -56,11 +54,6 @@ const GameOver = () => {
       <PrimaryTitle title={`User: ${data?.msisdn}`} />
       <h3 className={classes.number}></h3>
       <div className={classes.card_padding} style={{padding:"0px"}}>
-        {/* <img
-          src="/assets/images/panda.png"
-          alt="avatar"
-          className={classes.avatar}
-        /> */}
 
         <Lottie
                 animationData={Gameover}
@@ -134,6 +127,7 @@ const GameOver = () => {
     </Card>
     <DeletedItemModal open={open} items = {items} close ={()=>{setOpen(false)}} />
     <BottomNavbar />
+    <ToastContainer/>
   </Layout>
   )
 }

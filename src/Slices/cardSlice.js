@@ -7,7 +7,13 @@ const cardSlice = createSlice({
     initialState:initialState,
     reducers:{
         addCard:(state,action)=>{
+            
+            if(state.includes(action.payload.id)){
+                console.log(action.payload.id,"it exists already")
+                return state;
+            }
             state.push(action.payload);
+            console.log("item added")
             return state;
         },
         removeCard:(state,action)=>{

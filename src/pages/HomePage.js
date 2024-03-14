@@ -15,7 +15,12 @@ const HomePage = () => {
   const navigate = useNavigate();
   const navigateHandler = () => {
     if(token){
-      navigate('/game')
+      // localStorage.removeItem('root');
+      localStorage.clear()
+      setTimeout(() => {
+        // navigate('/game');
+        window.location.href = '/game';
+      }, 1000);
     }
     else{
       navigate("/login");

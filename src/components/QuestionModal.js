@@ -62,8 +62,8 @@ const QuestionModal = ({open,close,question,price,remove,AddScore}) => {
 
       const addPrice=async()=>{
         const response = await addPriceApi(price);
-
         console.log(response);
+        AddScore();
       }
       
       useEffect(()=>{
@@ -71,9 +71,10 @@ const QuestionModal = ({open,close,question,price,remove,AddScore}) => {
             // console.log(answer,"right ans")
             setPrize(true);
             addPrice();
-            AddScore();
             setTimeout(()=>{
-              close();
+             
+                close();
+              
             },3000)
             
         }
@@ -81,7 +82,10 @@ const QuestionModal = ({open,close,question,price,remove,AddScore}) => {
        if(answer !== rightAnswer && answer && rightAnswer){
           setLoss(true)
           setTimeout(()=>{
-            close();
+      
+              close();
+     
+            
           },2000) 
           remove();
         }
@@ -93,7 +97,7 @@ const QuestionModal = ({open,close,question,price,remove,AddScore}) => {
       <div >
       <Modal
         open={open}
-        onClose={close}
+        onClose={disabled && close}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
         className={classes.modal}

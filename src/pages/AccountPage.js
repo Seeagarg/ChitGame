@@ -10,6 +10,8 @@ import { accountApi } from "../api/Http";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addAccount } from "../Slices/accountSlice";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AccountPage = () => {
 
@@ -106,6 +108,7 @@ const AccountPage = () => {
         </div>
       </Card>
       <BottomNavbar />
+      <ToastContainer/>
     </Layout>
   );
 };

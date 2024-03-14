@@ -9,16 +9,18 @@ import AccountPage from "../pages/AccountPage";
 import GamePage from "../pages/GamePage";
 import LoginPage from "../pages/LoginPage";
 import GameOver from "../pages/GameOver";
+import Auth from "../Auth/Auth";
 
 const Routing = () => {
   const routes = [
     {
       path: "/home",
-      element: <HomePage/>,
+
+      element:<HomePage/>,
     },
     {
       path: "/",
-      element: <IntroPage />,
+      element: <IntroPage /> ,
     },
     {
       path: "/instructions",
@@ -30,19 +32,19 @@ const Routing = () => {
     },
     {
       path: "/account",
-      element: <AccountPage />,
+      element: <Auth><AccountPage /> </Auth>,
     },
     {
       path: "/game",
-      element: <GamePage />,
+      element:<Auth> <GamePage /></Auth>,
     },
     {
       path: "/login",
-      element: <LoginPage/>,
+      element: <Auth><LoginPage/></Auth> ,
     },
     {
       path: "/gameOver",
-      element: <GameOver/>,
+      element: <Auth><GameOver/></Auth>,
     },
   ];
 

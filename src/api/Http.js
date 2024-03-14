@@ -1,9 +1,11 @@
 import axios from "axios"
 import { getCookie } from "../Cookie"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // const BACKEND_URL = "http://192.168.1.57:4010"
-// const BACKEND_URL = "http://localhost:4010"
-const BACKEND_URL = "http://192.168.1.27:4010"
+const BACKEND_URL = "http://localhost:4010"
+// const BACKEND_URL = "http://192.168.1.27:4010"
 
 const token = getCookie() ? 
 JSON.parse(getCookie()).token:
@@ -17,10 +19,13 @@ export const loginApi=async(number,password)=>{
             password:password
         })
         // console.log(response.data)
-        return response.data;
+        toast.success("Logged In Successfully!!");
+        return response;
     }
     catch(err){
+        toast.error(err.message);
         console.log(err)
+        return err;
     }
 }
 
@@ -36,6 +41,7 @@ export const chitApi=async()=>{
         return response.data;
     }
     catch(err){
+        toast.error(err.message)
         console.log(err);
     }
 }
@@ -52,6 +58,7 @@ export const questionApi=async()=>{
         return response.data;
     }
     catch(err){
+        toast.error(err.message)
         console.log(err)
     }
 }
@@ -70,6 +77,7 @@ export const accountApi=async(number)=>{
         return response.data.result;
     }
     catch(err){
+        toast.error(err.message)
         console.log(err)
     }
 }
